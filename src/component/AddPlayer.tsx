@@ -47,7 +47,7 @@ const AddPlayer =  () => {
             const result = await response.json();
             return result.exists;
             };
-
+            
         
         let player = PostPlayer({id: id, pseudo: pseudo, birthDate: castDateAsParam(birthDate)})
             .then((response) => {
@@ -59,10 +59,16 @@ const AddPlayer =  () => {
                 console.error("Error during update process", error);
                 //toast.error(error.response.data.Errors[0].ErrorMessage)
                 toast.error("Error during update process")
+                const status = error?.response?.status;
+                const message = error?.response?.data?.error || "Error during update process";
+                if(status === 500 || message.includes("already exists")) {
+                    toast.warning("Player already exists");
+                }
               });
 
             
     }
+
     return (
         <>
         <form onSubmit={handleSubmit}
