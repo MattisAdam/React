@@ -1,18 +1,22 @@
 import { Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, {useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostMultiple } from "../HttpRequest/MultipleHistoryRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { setNumber } from "./counterSlice";
 import { RootState } from "../component/store";
+import { toast } from 'react-toastify';
 
 const SendCompteurOnDb = async (counter: number, dispatch: any) => {
     try {
         const result = await PostMultiple(counter);
         console.log("Successful send", result);
         dispatch(setNumber(counter));
+        toast.success("Envoyé avec succès");
+
     } catch (error) {
         console.error("Error", error);
+        toast.error("Erreur lors de l'envoi");
     }
 };
 

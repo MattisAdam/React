@@ -2,17 +2,16 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Butto
 import { GetPlayerByCriteria, Player } from "../HttpRequest/PlayerRequest";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PlayerDetail from "../component/DetailsCase"
-import DetailsCase from "../component/DetailsCase";
 import { useDispatch } from 'react-redux'
 import { setPlayerId } from "./playerSlice";
+import AddPlayer from "../component/AddPlayer";
+import  Delete  from "./Delete";
 
 
 export interface PlayerListProps {
   maxAge: number
 }
 const PlayerList = (props: PlayerListProps) => {
-
     let [players, setPlayers] = useState<Player[]>([])
     const navigate = useNavigate();
     useEffect(() => {
@@ -30,43 +29,85 @@ const PlayerList = (props: PlayerListProps) => {
     const handleClickDispatch =(player: Player) =>{
       dispatch(setPlayerId(player.id))
     }
+
+    const handleClickAdd = () => {
+      navigate("player/add");
+    }
+
+    const handleClickEdit = (player: Player) => {
+      navigate("player/edit/" + player.id);
+    }
+
+    
     const dispatch = useDispatch()
     return (
       <>
-        <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Pseudo</TableCell>
-              <TableCell>Age</TableCell>
-              <TableCell>Details</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {players.map((player, index) => (
-                <TableRow key={index} hover>
-                  <Button onClick={() => handleClickDispatch(player)}>
-                    <TableCell>{player?.pseudo}</TableCell>
-                    <TableCell>{player?.age}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="text"
-                        color="primary"
-                        onClick={() => handleClick(player)}
-                      >
-                        Détails
-                      </Button>
-                    </TableCell>
+          <TableContainer>
+            <Table
+              style={{ width: '80%', marginLeft: '100px', marginTop: '50px', fontSize: '20px' }}
+            >
+              <TableHead style={{ backgroundColor: '#B7A7A9', fontSize: '25px', color: '#FFFFFF' }}>
+                <TableRow>
+                  <TableCell style={{ paddingRight: '5px', marginLeft: '5px', color: 'white' }}>
+                    <Button
+                      onClick={() => handleClickAdd()}
+                      style={{ marginRight: '20px', fontSize: '15px', color:'#000000', backgroundColor: '#FFFFFF' }}
+                    >
+                      +
                     </Button>
-                </TableRow>                
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      
-      </>
-      
-    )
+                    Actions
+                  </TableCell>
+                  <TableCell
+                    style={{ color: 'white'}}
+                  >Pseudo</TableCell>
+                  <TableCell
+                    style={{ color: 'white'}}
+                  >Age</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody style={{ fontSize: '20px' }}>
+                {players.map((player, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ padding: '5px 10px', display: 'flex', justifyContent: 'flex-start' }}>
+                      <Button
+                        style={{ fontSize: '15px', marginLeft: '5px', textAlign: 'start' }}
+                        color="primary"
+                        variant="outlined"
+                        onClick={() => handleClickDispatch(player)}
+                      >
+                        👁
+                      </Button>
+                      <Button
+                        style={{ fontSize: '15px', marginLeft: '5px', textAlign: 'start' }}
+                        color="secondary"
+                        variant="outlined"
+                        onClick={() => handleClickEdit(player)}
+                      >
+                        ✎
+                      </Button>
+                      <Delete
+                        id={player.id}
+                        pseudo={player.pseudo}
+                        birthDate={player.birthDate}
+                      />
+                    </TableCell>
+                    <TableCell
+                      style={{ cursor: 'pointer', fontSize: '15px', marginLeft: '-15px', textAlign: 'start' }}
+                    >
+                      {player?.pseudo}
+                    </TableCell>
+                    <TableCell
+                      style={{ cursor: 'pointer', fontSize: '15px', marginLeft: '-15px', textAlign: 'start' }}
+                    >
+                      {player?.age}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+         </>
+ )
 }
 
 

@@ -1,5 +1,5 @@
 import { Button} from "@mui/material";
-import React, {useReducer, useEffect, useState} from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import PlayerList from "../component/PlayerList";
 import DetailsCase from "../component/DetailsCase";
@@ -7,11 +7,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../component/store";
 
 
-
 const PlayersPage = () => {
 
   const playerId = useSelector((state : RootState) => state.player.id)
-
   const navigate = useNavigate();
 
   const handleClickCompteur = () =>{ navigate("player/compteur/");}
@@ -19,16 +17,20 @@ const PlayersPage = () => {
     return (
         <>
         <PlayerList maxAge={0}></PlayerList>
-        <DetailsCase playerId={Number(playerId)}></DetailsCase>
-
-          <Button
+       
+          <DetailsCase playerId={Number(playerId)}></DetailsCase>
+     
+        
+        <br />
+        <Button
             variant="outlined"
             color="success"
-            
             onClick={() => handleClickCompteur()}
+            style={{ marginTop: '20px', width: '200px', fontSize:'20px'} }
           >
             Compteur
-          </Button>
+         </Button>
+          
         </>
     )
 }
