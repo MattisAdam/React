@@ -1,11 +1,11 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Modal} from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, IconButton, Menu, MenuItem } from "@mui/material";
 import { GetPlayerByCriteria, Player } from "../HttpRequest/PlayerRequest";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux'
 import { setPlayerId } from "./playerSlice";
-import AddPlayer from "../component/AddPlayer";
-import  Delete  from "./Delete";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Delete from "./delete";
 
 
 export interface PlayerListProps {
@@ -21,9 +21,41 @@ const PlayerList = (props: PlayerListProps) => {
       };
       fetchData();
     }, [props.maxAge]);
+  
+    const sortByAgeDesc = () => {
+      const sortedPlayers = [...players].sort((a, b) => b.age - a.age);
+      setPlayers(sortedPlayers);
+    }
+    const sortByAgeAsc = () => {
+      const sortedPlayers = [...players].sort((a, b) => a.age - b.age);
+      setPlayers(sortedPlayers);
+    }
+    const sortByPseudoDesc= () => {
+      const sortedPlayers = [...players].sort((a, b) => b.pseudo.localeCompare(a.pseudo));
+      setPlayers(sortedPlayers)
+    }
+    const sortByPseudoAsc= () => {
+      const sortedPlayers = [...players].sort((a, b) => a.pseudo.localeCompare(b.pseudo));
+      setPlayers(sortedPlayers) 
+    }
+    
+    const [anchorElAge, setAnchorElAge] = useState<null | HTMLElement>(null);
+    const openAge = Boolean(anchorElAge);
 
-    const handleClick = (player: Player) => {
-      navigate("player/detail/" + player.id);
+    const [anchorElPseudo, setAnchorElPseudo] = useState<null | HTMLElement>(null);
+    const openPseudo = Boolean(anchorElPseudo);
+
+    const handleClickPseudo = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorElPseudo(event.currentTarget);
+    };
+    const handleClosePseudo = () => {
+      setAnchorElPseudo(null);
+    };
+    const handleClickAge = (event: React.MouseEvent<HTMLButtonElement>) => {
+      setAnchorElAge(event.currentTarget);
+    };
+    const handleCloseAge = () => {
+      setAnchorElAge(null);
     };
 
     const handleClickDispatch =(player: Player) =>{
@@ -59,10 +91,61 @@ const PlayerList = (props: PlayerListProps) => {
                   </TableCell>
                   <TableCell
                     style={{ color: 'white'}}
-                  >Pseudo</TableCell>
-                  <TableCell
-                    style={{ color: 'white'}}
-                  >Age</TableCell>
+                  >
+                    Pseudo
+
+                    <IconButton
+                        onClick={handleClickPseudo}
+                        style={{ color: 'white', marginLeft: '10px' }}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu anchorEl={anchorElPseudo} open={openPseudo} onClose={handleClosePseudo}>
+                        <MenuItem
+                          onClick={() => {
+                            sortByPseudoAsc();
+                            handleClosePseudo();
+                          }}
+                        >
+                          Sort by Asc ⬇
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            sortByPseudoDesc();
+                            handleClosePseudo();
+                          }}
+                        >
+                          Sort by Desc ⬆
+                        </MenuItem>
+                      </Menu>
+                  </TableCell>
+                  <TableCell style={{ color: 'white', textAlign: 'center' }}>
+                      Age
+                      <IconButton
+                        onClick={handleClickAge}
+                        style={{ color: 'white', marginLeft: '10px' }}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu anchorEl={anchorElAge} open={openAge} onClose={handleCloseAge}>
+                        <MenuItem
+                          onClick={() => {
+                            sortByAgeAsc();
+                            handleCloseAge();
+                          }}
+                        >
+                          Sort by Asc ⬇
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            sortByAgeDesc();
+                            handleCloseAge();
+                          }}
+                        >
+                          Sort by Desc ⬆
+                        </MenuItem>
+                      </Menu>
+                    </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody style={{ fontSize: '20px' }}>
@@ -97,7 +180,7 @@ const PlayerList = (props: PlayerListProps) => {
                       {player?.pseudo}
                     </TableCell>
                     <TableCell
-                      style={{ cursor: 'pointer', fontSize: '15px', marginLeft: '-15px', textAlign: 'start' }}
+                      style={{ cursor: 'pointer', fontSize: '15px', marginRight: '20px', textAlign: 'center' }}
                     >
                       {player?.age}
                     </TableCell>

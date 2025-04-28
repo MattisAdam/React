@@ -29,6 +29,7 @@ const CustomInput = React.forwardRef(({ value, onClick }: any, ref) => (
       }}
     />
   ));
+  
 const AddPlayer =  () => {
     const [id, setId] = useState<number>(0);
     const [pseudo, setPseudo] = useState("John Doe");
@@ -65,8 +66,6 @@ const AddPlayer =  () => {
                     toast.warning("Player already exists");
                 }
               });
-
-            
     }
 
     return (

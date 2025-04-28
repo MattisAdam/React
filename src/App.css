@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+
+.datepicker-input {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}
+
+.datepicker-input:focus {
+  border-color: #007bff;
+}
+
+.input-field {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+}
+
+
+.input-field.error {
+  background-color: #ec0215;  
+  border-color: #ff0000;  
+}

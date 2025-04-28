@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import DetailsCase from "../component/DetailsCase";
+import DetailsCase from "../component/detailsCase";
 
 
 const PlayerDetailPage = () => {

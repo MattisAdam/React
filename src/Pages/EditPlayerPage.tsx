@@ -1,14 +1,11 @@
-import React from "react";
-import EditPlayer  from "../component/EditPlayer";
+import { PlayerFormik } from "../component/formikPlayer"
 import { useParams } from "react-router-dom";
-
 const EditPlayerPage = () => {
-
-    const id = Number(useParams().playerId);
-    const birthDate = new Date();
+    const params = useParams();
     return (
         <>
-            <EditPlayer></EditPlayer>
+            <PlayerFormik IsAddMode = {false} id={Number(params.playerId)}></PlayerFormik>
+           
         </>
     )
 }

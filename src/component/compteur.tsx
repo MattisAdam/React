@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { PostMultiple } from "../HttpRequest/MultipleHistoryRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { setNumber } from "./counterSlice";
-import { RootState } from "../component/store";
+import { RootState } from "./store";
 import { toast } from 'react-toastify';
 
 const SendCompteurOnDb = async (counter: number, dispatch: any) => {

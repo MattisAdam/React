@@ -1,10 +1,12 @@
-import React from 'react'
-import AddPlayer from '../component/AddPlayer'
+
+import { PlayerFormik } from "../component/formikPlayer"
+import { useParams } from "react-router-dom";
 
 const AddPlayerPage = () => {
+    const params = useParams();
     return(
         <>
-        <AddPlayer></AddPlayer>
+        <PlayerFormik IsAddMode={true} id={Number(params.playerId)}></PlayerFormik>
         </>
     )
 

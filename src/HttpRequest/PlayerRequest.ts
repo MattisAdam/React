@@ -22,7 +22,6 @@ export const GetPlayerById = (id: number) => {
         () => fetchPlayer(id),
         {enabled: true, staleTime: Infinity} 
     );
-    console.log("Date ", data?.birthDate);
     return { data, isLoading, refetch, isRefetching };
 };
 export interface PlayerCriteria {
@@ -49,15 +48,14 @@ export interface DeletePlayerRequest {
     birthDate: Date
 }
 export const DeletePlayer = async (player: DeletePlayerRequest) => {
-    console.log("DeletePlayer", player);
     const response = await axios.post<Player>(`https://localhost:7118/api/player/Delete-Player`, castObjectAsParam(player));
     return response.data;
 }
 
 export interface PutPlayerRequest {
     pseudo: string,
-    birthDate: Date, 
-    id: number
+    birthDate: Date | null, 
+    id?: number
 }
 
 export const UpdatePlayer = async (player: PutPlayerRequest) => {
